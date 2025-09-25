@@ -97,6 +97,7 @@ export const postCrearCategoria = async (nombre_categoria, clasificacion) => {
   return result.rows[0];
 };
 
+
 export const actualizarCategoria = async (id_categoria, nombre_categoria, clasificacion) => {
   const query = `
     UPDATE categorias
@@ -141,17 +142,29 @@ export const postCrearLibro = async (titulo, anio_publicacion, resumen, autor_id
   return result.rows[0];
 };
 
+
 export const actualizarLibro = async (id_libro, titulo, anio_publicacion, resumen, autor_id, categoria_id) => {
   const query = `
     UPDATE libros
-    SET titulo = $1, anio_publicacion = $2, resumen = $3, autor_id = $4, categoria_id = $5
+    SET titulo = $1,
+        anio_publicacion = $2,
+        resumen = $3,
+        autor_id = $4,
+        categoria_id = $5
     WHERE id_libro = $6
     RETURNING *;
   `;
-  const result = await pool.query(query, [titulo, anio_publicacion, resumen, autor_id, categoria_id, id_libro]);
-  if (result.rowCount === 0) throw new Error('Libro no encontrado');
+  const result = await pool.query(query, [
+    titulo,
+    anio_publicacion,
+    resumen,
+    autor_id,
+    categoria_id,
+    id_libro
+  ]);
   return result.rows[0];
 };
+
 
 export const eliminarLibro = async (id_libro) => {
   const libro = await pool.query('SELECT * FROM libros WHERE id_libro = $1', [id_libro]);

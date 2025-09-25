@@ -52,25 +52,31 @@ export const getObtenerTodasLasCategorias = async (req, res, next) => {
 // Crear categoría
 export const postCrearCategoria = async (req, res, next) => {
   try {
-    const { nombre, descripcion } = req.body;
-    const nuevaCategoria = await autorService.postCrearCategoria(nombre, descripcion);
+    const { nombre_categoria, clasificacion } = req.body;
+    const nuevaCategoria = await autorService.postCrearCategoria(nombre_categoria, clasificacion);
     res.status(201).json(nuevaCategoria);
   } catch (error) {
     next(error);
   }
 };
 
+
 // Actualizar categoría
 export const putActualizarCategoria = async (req, res, next) => {
   try {
     const { id_categoria } = req.params;
-    const { nombre, descripcion } = req.body;
-    const categoriaActualizada = await autorService.actualizarCategoria(id_categoria, nombre, descripcion);
+    const { nombre_categoria, clasificacion } = req.body; // 👈 ahora coincide
+    const categoriaActualizada = await autorService.actualizarCategoria(
+      id_categoria,
+      nombre_categoria,
+      clasificacion
+    );
     res.json(categoriaActualizada);
   } catch (error) {
     next(error);
   }
 };
+
 
 // Eliminar categoría
 export const deleteEliminarCategoria = async (req, res, next) => {
@@ -99,29 +105,45 @@ export const getObtenerTodosLosLibros = async (req, res, next) => {
 // Crear libro
 export const postCrearLibro = async (req, res, next) => {
   try {
-    const { titulo, descripcion, fecha_publicacion, id_autor, id_categoria } = req.body;
+    const { titulo, resumen, anio_publicacion, autor_id, categoria_id } = req.body;
+
     const nuevoLibro = await autorService.postCrearLibro(
-      titulo, descripcion, fecha_publicacion, id_autor, id_categoria
+      titulo,
+      anio_publicacion,
+      resumen,
+      autor_id,
+      categoria_id
     );
+
     res.status(201).json(nuevoLibro);
   } catch (error) {
     next(error);
   }
 };
 
+
+
 // Actualizar libro
 export const putActualizarLibro = async (req, res, next) => {
   try {
     const { id_libro } = req.params;
-    const { titulo, descripcion, fecha_publicacion, id_autor, id_categoria } = req.body;
+    const { titulo, anio_publicacion, resumen, autor_id, categoria_id } = req.body;
+
     const libroActualizado = await autorService.actualizarLibro(
-      id_libro, titulo, descripcion, fecha_publicacion, id_autor, id_categoria
+      id_libro,
+      titulo,
+      anio_publicacion,
+      resumen,
+      autor_id,
+      categoria_id
     );
+
     res.json(libroActualizado);
   } catch (error) {
     next(error);
   }
 };
+
 
 // Eliminar libro
 export const deleteEliminarLibro = async (req, res, next) => {
