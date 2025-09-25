@@ -1,12 +1,10 @@
 import { pool } from '../db.js';
 
-// Obtener todos los autores
 export const getAllAutores = async () => {
   const result = await pool.query('SELECT * FROM autores');
   return result.rows;
 };
 
-// Buscar autor por correo
 export const getAutorByCorreo = async (correo) => {
   const result = await pool.query(
     'SELECT * FROM autores WHERE correo = $1',
@@ -15,7 +13,6 @@ export const getAutorByCorreo = async (correo) => {
   return result.rows[0];
 };
 
-// Buscar autor por nombre
 export const getBuscarAutorPorNombre = async (nombre) => {
   const buscar = `%${nombre}%`;
   const result = await pool.query(
@@ -25,7 +22,6 @@ export const getBuscarAutorPorNombre = async (nombre) => {
   return result.rows;
 };
 
-// Crear autor
 export const postCrearAutor = async (nombre, nacionalidad, biografia, correo) => {
   const query = `
     INSERT INTO autores (nombre, nacionalidad, biografia, correo)
@@ -36,7 +32,6 @@ export const postCrearAutor = async (nombre, nacionalidad, biografia, correo) =>
   return result.rows[0];
 };
 
-// Actualizar autor
 export const actualizarAutor = async (id_autor, nombre, nacionalidad, biografia, correo) => {
   const query = `
     UPDATE autores
@@ -53,7 +48,6 @@ export const actualizarAutor = async (id_autor, nombre, nacionalidad, biografia,
   return result.rows[0];
 };
 
-// Eliminar autor
 export const eliminarAutor = async (id_autor) => {
   const autorAEliminar = await pool.query(
     'SELECT * FROM autores WHERE id_autor = $1',

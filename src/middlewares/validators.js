@@ -1,6 +1,5 @@
 import { body, validationResult } from 'express-validator';
 
-// Middleware para ejecutar las validaciones
 export const runValidations = (validations) => {
   return async (req, res, next) => {
     for (const validation of validations) {
@@ -34,7 +33,6 @@ export const createUserValidators = [
     .withMessage('La contraseña debe tener al menos 6 caracteres'),
 ];
 
-// Validaciones para crear autores
 export const createAutorValidators = [
   body('nombre')
     .trim()
@@ -57,7 +55,6 @@ export const createAutorValidators = [
     .withMessage('La biografía debe ser texto'),
 ];
 
-// Validaciones para crear categorías
 export const createCategoriaValidators = [
   body('nombre_categoria')
     .trim()
@@ -70,7 +67,6 @@ export const createCategoriaValidators = [
     .withMessage('La clasificación es obligatoria'),
 ];
 
-// Validaciones para crear libros
 export const createLibroValidators = [
   body('titulo')
     .trim()

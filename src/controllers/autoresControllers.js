@@ -37,9 +37,6 @@ export const deleteEliminarAutor = async (req, res) => {
   res.sendStatus(204);
 };
 
-// ====== CATEGORÍAS ======
-
-// Obtener todas las categorías
 export const getObtenerTodasLasCategorias = async (req, res, next) => {
   try {
     const categorias = await autorService.getAllCategorias();
@@ -49,7 +46,6 @@ export const getObtenerTodasLasCategorias = async (req, res, next) => {
   }
 };
 
-// Crear categoría
 export const postCrearCategoria = async (req, res, next) => {
   try {
     const { nombre_categoria, clasificacion } = req.body;
@@ -60,12 +56,10 @@ export const postCrearCategoria = async (req, res, next) => {
   }
 };
 
-
-// Actualizar categoría
 export const putActualizarCategoria = async (req, res, next) => {
   try {
     const { id_categoria } = req.params;
-    const { nombre_categoria, clasificacion } = req.body; // 👈 ahora coincide
+    const { nombre_categoria, clasificacion } = req.body;
     const categoriaActualizada = await autorService.actualizarCategoria(
       id_categoria,
       nombre_categoria,
@@ -77,8 +71,6 @@ export const putActualizarCategoria = async (req, res, next) => {
   }
 };
 
-
-// Eliminar categoría
 export const deleteEliminarCategoria = async (req, res, next) => {
   try {
     const { id_categoria } = req.params;
@@ -89,10 +81,6 @@ export const deleteEliminarCategoria = async (req, res, next) => {
   }
 };
 
-
-// ====== LIBROS ======
-
-// Obtener todos los libros
 export const getObtenerTodosLosLibros = async (req, res, next) => {
   try {
     const libros = await autorService.getAllLibros();
@@ -102,7 +90,6 @@ export const getObtenerTodosLosLibros = async (req, res, next) => {
   }
 };
 
-// Crear libro
 export const postCrearLibro = async (req, res, next) => {
   try {
     const { titulo, resumen, anio_publicacion, autor_id, categoria_id } = req.body;
@@ -121,9 +108,6 @@ export const postCrearLibro = async (req, res, next) => {
   }
 };
 
-
-
-// Actualizar libro
 export const putActualizarLibro = async (req, res, next) => {
   try {
     const { id_libro } = req.params;
@@ -144,8 +128,6 @@ export const putActualizarLibro = async (req, res, next) => {
   }
 };
 
-
-// Eliminar libro
 export const deleteEliminarLibro = async (req, res, next) => {
   try {
     const { id_libro } = req.params;
