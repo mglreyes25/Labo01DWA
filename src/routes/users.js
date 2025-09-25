@@ -25,6 +25,10 @@ router.get('/libros', controller.getObtenerTodosLosLibros);
 router.post('/libros', runValidations(createLibroValidators), controller.postCrearLibro);
 router.put('/libros/:id_libro', controller.putActualizarLibro);
 router.delete('/libros/:id_libro', controller.deleteEliminarLibro);
+router.get('/libros/anio/:anio', controller.getLibrosPorAnio);
+router.get('/libros/autor/:autor_id', controller.getLibrosPorAutor);
+router.get('/libros/categoria/:categoria_id', controller.getLibrosPorCategoria);
+router.get('/libros/clasificacion/:clasificacion', controller.getLibrosPorClasificacion);
 
 export default router;
 

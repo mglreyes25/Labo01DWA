@@ -168,3 +168,45 @@ export const eliminarLibro = async (id_libro) => {
 
   return { message: 'Libro eliminado exitosamente', libro: libro.rows[0] };
 };
+
+
+export const getLibrosPorAnio = async (anio_publicacion) => {
+  const query = `
+    SELECT * FROM libros 
+    WHERE anio_publicacion = $1
+  `;
+  const result = await pool.query(query, [anio_publicacion]);
+  return result.rows;
+};
+
+
+export const getLibrosPorAutor = async (autor_id) => {
+  const query = `
+    SELECT * FROM libros 
+    WHERE autor_id = $1
+  `;
+  const result = await pool.query(query, [autor_id]);
+  return result.rows;
+};
+
+
+export const getLibrosPorCategoria = async (categoria_id) => {
+  const query = `
+    SELECT * FROM libros 
+    WHERE categoria_id = $1
+  `;
+  const result = await pool.query(query, [categoria_id]);
+  return result.rows;
+};
+
+
+export const getLibrosPorClasificacion = async (clasificacion) => {
+  const query = `
+    SELECT l.* 
+    FROM libros l
+    INNER JOIN categorias c ON l.categoria_id = c.id_categoria
+    WHERE c.clasificacion ILIKE $1
+  `;
+  const result = await pool.query(query, [`%${clasificacion}%`]);
+  return result.rows;
+};

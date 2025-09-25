@@ -137,3 +137,46 @@ export const deleteEliminarLibro = async (req, res, next) => {
     next(error);
   }
 };
+
+
+
+export const getLibrosPorAnio = async (req, res, next) => {
+  try {
+    const { anio } = req.params;
+    const libros = await autorService.getLibrosPorAnio(anio);
+    res.json(libros);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getLibrosPorAutor = async (req, res, next) => {
+  try {
+    const { autor_id } = req.params;
+    const libros = await autorService.getLibrosPorAutor(autor_id);
+    res.json(libros);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const getLibrosPorCategoria = async (req, res, next) => {
+  try {
+    const { categoria_id } = req.params;
+    const libros = await autorService.getLibrosPorCategoria(categoria_id);
+    res.json(libros);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getLibrosPorClasificacion = async (req, res, next) => {
+  try {
+    const { clasificacion } = req.params;
+    const libros = await autorService.getLibrosPorClasificacion(clasificacion);
+    res.json(libros);
+  } catch (error) {
+    next(error);
+  }
+};
