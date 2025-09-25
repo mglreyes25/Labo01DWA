@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as controller from '../controllers/autoresControllers.js'; // 👈 UNO SOLO
+import * as controller from '../controllers/autoresControllers.js'; 
 import { 
   createAutorValidators, 
   createCategoriaValidators, 
