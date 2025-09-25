@@ -73,3 +73,91 @@ export const eliminarAutor = async (id_autor) => {
     autor: autorAEliminar.rows[0],
   };
 };
+
+export const getAllCategorias = async () => {
+  const result = await pool.query('SELECT * FROM categorias');
+  return result.rows;
+};
+
+export const getCategoriaById = async (id_categoria) => {
+  const result = await pool.query(
+    'SELECT * FROM categorias WHERE id_categoria = $1',
+    [id_categoria]
+  );
+  return result.rows[0];
+};
+
+export const postCrearCategoria = async (nombre_categoria, clasificacion) => {
+  const query = `
+    INSERT INTO categorias (nombre_categoria, clasificacion)
+    VALUES ($1, $2)
+    RETURNING *;
+  `;
+  const result = await pool.query(query, [nombre_categoria, clasificacion]);
+  return result.rows[0];
+};
+
+export const actualizarCategoria = async (id_categoria, nombre_categoria, clasificacion) => {
+  const query = `
+    UPDATE categorias
+    SET nombre_categoria = $1, clasificacion = $2
+    WHERE id_categoria = $3
+    RETURNING *;
+  `;
+  const result = await pool.query(query, [nombre_categoria, clasificacion, id_categoria]);
+  if (result.rowCount === 0) throw new Error('Categoría no encontrada');
+  return result.rows[0];
+};
+
+export const eliminarCategoria = async (id_categoria) => {
+  const categoria = await pool.query('SELECT * FROM categorias WHERE id_categoria = $1', [id_categoria]);
+  if (categoria.rowCount === 0) throw new Error('Categoría no encontrada');
+
+  await pool.query('DELETE FROM categorias WHERE id_categoria = $1', [id_categoria]);
+
+  return { message: 'Categoría eliminada exitosamente', categoria: categoria.rows[0] };
+};
+
+export const getAllLibros = async () => {
+  const result = await pool.query('SELECT * FROM libros');
+  return result.rows;
+};
+
+export const getLibroById = async (id_libro) => {
+  const result = await pool.query(
+    'SELECT * FROM libros WHERE id_libro = $1',
+    [id_libro]
+  );
+  return result.rows[0];
+};
+
+export const postCrearLibro = async (titulo, anio_publicacion, resumen, autor_id, categoria_id) => {
+  const query = `
+    INSERT INTO libros (titulo, anio_publicacion, resumen, autor_id, categoria_id)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *;
+  `;
+  const result = await pool.query(query, [titulo, anio_publicacion, resumen, autor_id, categoria_id]);
+  return result.rows[0];
+};
+
+export const actualizarLibro = async (id_libro, titulo, anio_publicacion, resumen, autor_id, categoria_id) => {
+  const query = `
+    UPDATE libros
+    SET titulo = $1, anio_publicacion = $2, resumen = $3, autor_id = $4, categoria_id = $5
+    WHERE id_libro = $6
+    RETURNING *;
+  `;
+  const result = await pool.query(query, [titulo, anio_publicacion, resumen, autor_id, categoria_id, id_libro]);
+  if (result.rowCount === 0) throw new Error('Libro no encontrado');
+  return result.rows[0];
+};
+
+export const eliminarLibro = async (id_libro) => {
+  const libro = await pool.query('SELECT * FROM libros WHERE id_libro = $1', [id_libro]);
+  if (libro.rowCount === 0) throw new Error('Libro no encontrado');
+
+  await pool.query('DELETE FROM libros WHERE id_libro = $1', [id_libro]);
+
+  return { message: 'Libro eliminado exitosamente', libro: libro.rows[0] };
+};

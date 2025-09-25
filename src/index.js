@@ -13,7 +13,8 @@ app.get('/', (req, res) => {
 });
 
 // Aquí montamos el router en /autores
-app.use('/autores', usersRouter);
+app.use('/', usersRouter);
+
 
 // Middleware para manejar errores
 app.use(errorHandler);
