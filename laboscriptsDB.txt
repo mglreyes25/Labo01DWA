@@ -1,0 +1,41 @@
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+CREATE TABLE autores (
+    id_autor UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    nombre VARCHAR(100) NOT NULL,
+    nacionalidad VARCHAR(100),
+    biografia TEXT,
+    correo VARCHAR(150) NOT NULL UNIQUE
+);
+CREATE TABLE categorias (
+    id_categoria UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    nombre_categoria VARCHAR(100) NOT NULL,
+    clasificacion VARCHAR(50) NOT NULL
+);
+CREATE TABLE libros (
+    id_libro UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    titulo VARCHAR(255) NOT NULL CHECK (char_length(titulo) >= 10),
+    anio_publicacion INT NOT NULL CHECK (anio_publicacion > 1900),
+    autor_id UUID REFERENCES autores(id_autor) ON DELETE CASCADE,
+    categoria_id UUID REFERENCES categorias(id_categoria) ON DELETE CASCADE,
+    resumen TEXT
+);
+INSERT INTO autores (nombre, nacionalidad, biografia, correo) VALUES
+('Gabriel García Márquez', 'Colombiana', 'Autor de Cien años de soledad y premio Nobel de Literatura.', 'gabriel@realismo.com'),
+('Isabel Allende', 'Chilena', 'Novelista famosa por La casa de los espíritus.', 'isabel@literatura.com'),
+('Mario Vargas Llosa', 'Peruana', 'Premio Nobel de Literatura, autor de La ciudad y los perros.', 'mario@peru.com'),
+('Julio Cortázar', 'Argentina', 'Autor de Rayuela y cuentos extraordinarios.', 'julio@rayuela.com'),
+('J.K. Rowling', 'Británica', 'Creadora del mundo de Harry Potter.', 'jk@hogwarts.com');
+
+INSERT INTO categorias (nombre_categoria, clasificacion) VALUES
+('Novela', 'Literatura'),
+('Cuento', 'Literatura'),
+('Fantasía', 'Ficción'),
+('Historia', 'Académica'),
+('Ciencia Ficción', 'Ficción');
+INSERT INTO libros (titulo, anio_publicacion, autor_id, categoria_id, resumen)
+VALUES
+('Harry Potter y la piedra filosofal', 1997,
+ (SELECT id_autor FROM autores WHERE nombre = 'J.K. Rowling'),
+ (SELECT id_categoria FROM categorias WHERE nombre_categoria = 'Fantasía'),
+ 'El inicio de la saga del joven mago en Hogwarts.'
+);
